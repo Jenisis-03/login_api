@@ -2,12 +2,9 @@ const express = require('express');
 const router = express.Router();
 const authController = require('../controllers/authController');
 
-router.post('/send-otp', authController.sendOtp);
+router.post('/signup', authController.signup);
+router.post('/login', authController.login);
 router.post('/verify-otp', authController.verifyOtp);
-
-// Middleware to protect routes
-router.get('/profile', require('../middleware/authMiddleware'), (req, res) => {
-    res.json({ message: "Access granted", userId: req.userId });
-});
+router.get('/profile', require('../middleware/authMiddleware'), authController.profile);
 
 module.exports = router;
