@@ -7,6 +7,7 @@ const sequelize = require('./config/database');
 
 const swaggerSpec = require('./utils/swagger');
 const swaggerUi = require('swagger-ui-express');
+const swaggerJsdoc = require('swagger-jsdoc');
 
 const app = express();
 
@@ -20,7 +21,34 @@ app.use(morgan('dev'));
 app.use('/api/auth', require('./routes/authRoutes'));
 
 // Swagger Docs
-app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerSpec));
+const swaggerOptions = {
+  definition: {
+    openapi: '3.0.0',
+    info: {
+      title: 'OTP Authentication API',
+      version: '1.0.0',
+      description: 'API for OTP-based authentication with profile management'
+    },
+    servers: [
+      {
+        url: 'http://localhost:3000'
+      }
+    ],
+    components: {
+      securitySchemes: {
+        bearerAuth: {
+          type: 'http',
+          scheme: 'bearer',
+          bearerFormat: 'JWT'
+        }
+      }
+    }
+  },
+  apis: ['./controllers/*.js', './routes/*.js']
+};
+
+const swaggerDocs = swaggerJsdoc(swaggerOptions);
+app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerDocs));
 
 // Test route
 app.get('/', (req, res) => {

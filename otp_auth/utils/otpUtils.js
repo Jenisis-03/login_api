@@ -4,7 +4,7 @@ function generateOtp() {
 
 function getOtpExpiry() {
     const now = new Date();
-    now.setMinutes(now.getMinutes() + 10); 
+    now.setMinutes(now.getMinutes() + 10);  // Changed from 15 to 10 minutes
     return now;
 }
 

@@ -2,10 +2,10 @@ const swaggerJsDoc = require('swagger-jsdoc');
 
 const options = {
   definition: {
-    openapi: '3.0.0',
+
     info: {
       title: 'OTP Authentication API',
-      version: '1.0.0',
+
       description: 'API for Email OTP-based authentication'
     },
     servers: [
